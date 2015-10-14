@@ -13,15 +13,15 @@ Student No. 200343884
 Overview
 --------
 This submission contains an information visualization program written in Processing 3.0. The program:
-+Reads an external XML file and stores it within an XML structure inside of Processing.
-+Renders the data read as points on a scatter-plot. 
-+Provides the user with interactivity tools to explore the data including:
-+X and Y zoom
-+Individual point selection
-+Mouse-over responsivity in:
-⋅⋅* size of point
-⋅⋅* rendering of point values as text
-+Ability to select / deselect data sets
++ Reads an external XML file and stores it within an XML structure inside of Processing.
++ Renders the data read as points on a scatter-plot. 
++ Provides the user with interactivity tools to explore the data including:
++ X and Y zoom
++ Individual point selection
++ Mouse-over responsivity in:
+  + size of point
+  + rendering of point values as text
++ Ability to select / deselect data sets
 
 Goals
 -----
@@ -41,7 +41,7 @@ The user-interactivity tools, highlighting on mouse-over, set-highlighting on-cl
 
 Design Decisions
 --------------
-⋅⋅* I have chosen not to label individual ticks as this severely clutters the rendering area
+I have chosen not to label individual ticks as this severely clutters the rendering area
 
 Known Issues / Planned Features
 ---------------------------------
@@ -67,5 +67,5 @@ Executables are provided for both windows and linux versions of the software (os
 Within the “assignment1” folder, open “build” and navigate to the folder for your operating system.
 Execute your binary. 
 
-*Note: You MUST have the XML file in the same directory as your executable!*
+**Note: You MUST have the XML file in the same directory as your executable!**
 
