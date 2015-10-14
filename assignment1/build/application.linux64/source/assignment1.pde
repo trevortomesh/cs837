@@ -94,7 +94,7 @@ void drawAxes(){
 }
 
 void alertWindow(){ // Alert window -- implamentation incomplete as of now. 
-  //rect(windowWidth/2, windowHeight/2, 50, 20, 7); 
+  rect(windowWidth/2, windowHeight/2, 50, 20, 7); 
 }
 
 //-----------------------------------------------------------------------------
@@ -216,6 +216,8 @@ void renderPoint(String date, String data, String name){
   if(selectToggle == true){  
     if(selectPoint[0] == offsetx+days(date)*scale[0] &&
       selectPoint[1] == offsety+float(data)*scale[1]){
+        //drawPointSize = pointSize*3;
+        //stroke(255);
   }
 }
 
@@ -236,6 +238,8 @@ void renderPoint(String date, String data, String name){
         selectPoint[0] = offsetx+days(date)*scale[0]; 
         selectPoint[1] = offsety+float(data)*scale[1];  
         
+        //origin[0] = selectPoint[0];
+        //origin[1] = selectPoint[1];
    }
   } 
 
@@ -245,12 +249,17 @@ void renderPoint(String date, String data, String name){
     selectName = " ";
     origin[0] = 0;
     origin[1] = 0;
-
+    
+   // scale = defaultScale; 
    }
   
   //DRAW THE POINT
+  //pushMatrix();
+  //translate(translateX, translateY);
+  //scale(scaleFactor);
   ellipse(origin[0]+offsetx+days(date)*scale[0], origin[1]+offsety+float(data)*scale[1], 
   drawPointSize, drawPointSize);
+  //popMatrix();
   }
 
 //------------------------------------------------------------
@@ -273,6 +282,10 @@ void mouseClicked(){
 //----------------------------------------------------------- 
 void mouseWheel(MouseEvent event) {
   float e = event.getCount(); 
+  /*scaleFactor += event.getAmount() / 100;
+  translateX -= event.getAmount() * mouseX / 100;
+  translateY -= event.getAmount() * mouseY / 100;
+  */
   scale[1] += e;  
   scale[0] += e;
 } 
@@ -280,7 +293,18 @@ void mouseWheel(MouseEvent event) {
 
 //-------------------------------------------------------------------------------
 void keyPressed() {
-  // Feature not yet implamented...
+  
+  /*if(key == 'x'){
+    xPressed = true;
+    selectToggle = false;
+  }
+  
+}
+
+void keyReleased(){
+  if(key == 'x'){
+   xPressed = false; 
+  }*/
 }
 
  

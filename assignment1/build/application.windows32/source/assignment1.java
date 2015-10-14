@@ -1,3 +1,19 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class assignment1 extends PApplet {
+
 XML xml; 
 int myIndex;
 boolean cnameRead;
@@ -31,7 +47,7 @@ float[] selectPoint = new float[2];
 float[] origin = {0,0};
 
 int[] pointsShown = {1,1,1,1,1};
-int[] buttonColors = {#9A348E, #A4D4B4, #B96D40, #DA627D, #FCA17D};
+int[] buttonColors = {0xff9A348E, 0xffA4D4B4, 0xffB96D40, 0xffDA627D, 0xffFCA17D};
 float[] button1 = {windowWidth - 40, windowHeight/2+pointSize};
 float[] button2 = {windowWidth - 40, windowHeight/2+(pointSize*2)+5};
 float[] button3 = {windowWidth - 40, windowHeight/2+(pointSize*3)+10};
@@ -43,14 +59,14 @@ boolean pause = false; //halts rendering for user input
 
 //--------------------------------------------------------------------
 //Remove for processing 2 compatability
-void settings(){
+public void settings(){
   size(windowWidth,windowHeight); 
 }
 
 //---------------------------------------------------------------------
-void setup(){
+public void setup(){
   xml = loadXML("exchange2014.xml");
-  background(#1A1B25);
+  background(0xff1A1B25);
   //size(windowWidth,windowHeight); //enable for processing 2 compatability 
   scaleFactor = 1;
   translateX = 0;
@@ -59,33 +75,33 @@ void setup(){
 }
 
 //----------------------------------------------------------------------
-void draw(){
+public void draw(){
   clear();
   update();
 }
 
 //----------------------------------------------------------------------
-void update(){
+public void update(){
   drawPoints();
   drawHUD();
   drawAxes();
 } 
 
 //----------------------------------------------------------------------
-void drawAxes(){
+public void drawAxes(){
  stroke(255,255,255); 
- fill(#000000);
+ fill(0xff000000);
  strokeWeight(10);
  line(offsetx,offsety,windowWidth, offsety); 
  line(offsetx, offsety, offsetx, windowHeight);  
  
  strokeWeight(1);
- for(float line = 0; line < 20; line+=0.1){
- line(float(offsetx-20), offsety+line*scale[1], float(offsetx+20), offsety+line*scale[1]);
+ for(float line = 0; line < 20; line+=0.1f){
+ line(PApplet.parseFloat(offsetx-20), offsety+line*scale[1], PApplet.parseFloat(offsetx+20), offsety+line*scale[1]);
  }
  
- for(float line = 0; line < 20; line+=0.01){
-   line(float(offsetx-10), offsety+line*scale[1], float(offsetx+10), offsety+line*scale[1]);
+ for(float line = 0; line < 20; line+=0.01f){
+   line(PApplet.parseFloat(offsetx-10), offsety+line*scale[1], PApplet.parseFloat(offsetx+10), offsety+line*scale[1]);
  }
  
  for(float line = 0; line < 365; line+=30){
@@ -93,15 +109,15 @@ void drawAxes(){
  }
 }
 
-void alertWindow(){ // Alert window -- implamentation incomplete as of now. 
-  //rect(windowWidth/2, windowHeight/2, 50, 20, 7); 
+public void alertWindow(){ // Alert window -- implamentation incomplete as of now. 
+  rect(windowWidth/2, windowHeight/2, 50, 20, 7); 
 }
 
 //-----------------------------------------------------------------------------
-void drawHUD(){  
+public void drawHUD(){  
  PFont drawFont;
  strokeWeight(1);
- fill(#63372C); 
+ fill(0xff63372C); 
  rect(windowWidth - 60, windowHeight/2, pointSize+20, 6*pointSize+20, 7);
  for(int btn = 0; btn < 5; btn++){
    if(abs(mouseX - (buttons[btn][0]))<10 &&
@@ -126,7 +142,7 @@ void drawHUD(){
     }
   }
   
-      fill(#82846D);
+      fill(0xff82846D);
       text(drawName, 250, 100);
       
       drawFont = loadFont("Arial-Black-12.vlw");
@@ -135,7 +151,7 @@ void drawHUD(){
     }
 
 //---------------------------------------------------------------------
-void drawPoints(){
+public void drawPoints(){
   PFont drawFont;
   strokeWeight(1);
   drawFont = loadFont("Carlito-Bold-30.vlw");
@@ -155,10 +171,10 @@ void drawPoints(){
         if(getCurrency(Currency_name.getContent()).equals("U.S. dollar (close)")){   
           if(selectName.equals("U.S. dollar (close)")){
             
-           fill(#FF4413, alpha); 
+           fill(0xffFF4413, alpha); 
           }
           else{
-        fill(#9A348E, alpha);} 
+        fill(0xff9A348E, alpha);} 
         renderPoint(Observation_date.getContent(), Observation_data.getContent(),Currency_name.getContent());  
   } 
       }
@@ -166,10 +182,10 @@ void drawPoints(){
    if(pointsShown[1] ==1){   
     if(getCurrency(Currency_name.getContent()).equals("Australian dollar")){
        if(selectName.equals("Australian dollar")){
-           fill(#FF4413, alpha); 
+           fill(0xffFF4413, alpha); 
           }
           else{
-        fill(#A4D4B4, alpha); }
+        fill(0xffA4D4B4, alpha); }
         renderPoint(Observation_date.getContent(), Observation_data.getContent(),Currency_name.getContent());
       }
       }
@@ -177,10 +193,10 @@ void drawPoints(){
       if(pointsShown[2] ==1){ 
       if(getCurrency(Currency_name.getContent()).equals("Hong Kong dollar")){ 
         if(selectName.equals("Hong Kong dollar")){
-           fill(#FF4413, alpha); 
+           fill(0xffFF4413, alpha); 
           }
         else{  
-        fill(#B96D40, alpha); }
+        fill(0xffB96D40, alpha); }
         
         renderPoint(Observation_date.getContent(), Observation_data.getContent(),Currency_name.getContent());
       }
@@ -190,10 +206,10 @@ void drawPoints(){
      if(pointsShown[3] ==1){
       if(getCurrency(Currency_name.getContent()).equals("Swiss franc")){
         if(selectName.equals("Swiss franc")){
-           fill(#FF4413, alpha); 
+           fill(0xffFF4413, alpha); 
           }
         else{  
-        fill(#DA627D, alpha); }
+        fill(0xffDA627D, alpha); }
         renderPoint(Observation_date.getContent(), Observation_data.getContent(), Currency_name.getContent());
       }
       }
@@ -201,27 +217,29 @@ void drawPoints(){
       if(pointsShown[4] ==1){
       if(getCurrency(Currency_name.getContent()).equals("U.K. pound sterling")){
         if(selectName.equals("U.K. pound sterling")){
-           fill(#FF4413, alpha); 
+           fill(0xffFF4413, alpha); 
           }
         else{  
-        fill(#FCA17D, alpha); }
+        fill(0xffFCA17D, alpha); }
         renderPoint(Observation_date.getContent(), Observation_data.getContent(), Currency_name.getContent());
       }}}}}
 //----------------------------------------------------------------
-void renderPoint(String date, String data, String name){
+public void renderPoint(String date, String data, String name){
   float drawPointSize = pointSize;
   stroke(255,255,255,30);
   
   //if a point is selected, highlight it and increase size
   if(selectToggle == true){  
     if(selectPoint[0] == offsetx+days(date)*scale[0] &&
-      selectPoint[1] == offsety+float(data)*scale[1]){
+      selectPoint[1] == offsety+PApplet.parseFloat(data)*scale[1]){
+        //drawPointSize = pointSize*3;
+        //stroke(255);
   }
 }
 
   //check if hovering over a point, highlight it and get the name for rendering.    
   if(abs(mouseX - (offsetx+days(date)*scale[0]))<1 &&
-    abs(mouseY - (offsety+float(data)*scale[1]))<=10 &&
+    abs(mouseY - (offsety+PApplet.parseFloat(data)*scale[1]))<=10 &&
     selectToggle == false){
       stroke(255);
       drawPointSize = pointSize*3;
@@ -234,8 +252,10 @@ void renderPoint(String date, String data, String name){
         
         
         selectPoint[0] = offsetx+days(date)*scale[0]; 
-        selectPoint[1] = offsety+float(data)*scale[1];  
+        selectPoint[1] = offsety+PApplet.parseFloat(data)*scale[1];  
         
+        //origin[0] = selectPoint[0];
+        //origin[1] = selectPoint[1];
    }
   } 
 
@@ -245,16 +265,21 @@ void renderPoint(String date, String data, String name){
     selectName = " ";
     origin[0] = 0;
     origin[1] = 0;
-
+    
+   // scale = defaultScale; 
    }
   
   //DRAW THE POINT
-  ellipse(origin[0]+offsetx+days(date)*scale[0], origin[1]+offsety+float(data)*scale[1], 
+  //pushMatrix();
+  //translate(translateX, translateY);
+  //scale(scaleFactor);
+  ellipse(origin[0]+offsetx+days(date)*scale[0], origin[1]+offsety+PApplet.parseFloat(data)*scale[1], 
   drawPointSize, drawPointSize);
+  //popMatrix();
   }
 
 //------------------------------------------------------------
-void mouseClicked(){
+public void mouseClicked(){
   for(int btn = 0; btn < 5; btn++){
      if(abs(mouseX - (buttons[btn][0]))<10 &&
         abs(mouseY - (buttons[btn][1]))<10){
@@ -271,25 +296,40 @@ void mouseClicked(){
 }
  
 //----------------------------------------------------------- 
-void mouseWheel(MouseEvent event) {
+public void mouseWheel(MouseEvent event) {
   float e = event.getCount(); 
+  /*scaleFactor += event.getAmount() / 100;
+  translateX -= event.getAmount() * mouseX / 100;
+  translateY -= event.getAmount() * mouseY / 100;
+  */
   scale[1] += e;  
   scale[0] += e;
 } 
 
 
 //-------------------------------------------------------------------------------
-void keyPressed() {
-  // Feature not yet implamented...
+public void keyPressed() {
+  
+  /*if(key == 'x'){
+    xPressed = true;
+    selectToggle = false;
+  }
+  
+}
+
+void keyReleased(){
+  if(key == 'x'){
+   xPressed = false; 
+  }*/
 }
 
  
 //---------------------------------------------------------- 
-int days(String ymd){
+public int days(String ymd){
     String[] tmpDate = split(ymd,'-');
-    int year = int(tmpDate[0]);
-    int month = int(tmpDate[1]);
-    int day = int(tmpDate[2]);
+    int year = PApplet.parseInt(tmpDate[0]);
+    int month = PApplet.parseInt(tmpDate[1]);
+    int day = PApplet.parseInt(tmpDate[2]);
     int elapsed = 0;
     
 
@@ -355,7 +395,7 @@ int days(String ymd){
 }
 
 //-------------------------------------------------------------------------------
-String getCurrency(String content){
+public String getCurrency(String content){
 /*This ugly little hack takes the first line of the "Currency_name" tag and 
  converts it to a string and returns that string -- to make up for the missing 
  function in the XML library. 
@@ -369,4 +409,13 @@ String getCurrency(String content){
     }
   }
             return(content.substring(0,myIndex));
+}
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "assignment1" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
 }
