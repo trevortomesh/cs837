@@ -1,7 +1,7 @@
 # CS 837 - Information Vizualization Code Repository#
 **Trevor M. Tomesh - University of Regina**
 
-* Fall 2015 * 
+*Fall 2015 * 
 
 ##CS 837 - Assignment 1##
 *13.10.2015*
