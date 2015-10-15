@@ -1,6 +1,7 @@
 import controlP5.*;
 import java.util.*;
-
+ControlP5 cp5;
+Slider2D s;
 ControlP5 control1, control2, slidex, slidey, scalex, scaley;
 String ctrl1, ctrl2;
 int c1, c2;
@@ -26,7 +27,6 @@ void settings(){
 
 void setup(){
   rawData = loadTable("cereal.csv", "header");
-
   println(rawData.getRowCount() + " total rows in table"); 
   cereals = new Cereal[rawData.getRowCount()];
   int index = 0;
@@ -50,7 +50,7 @@ void setup(){
     float(row.getString("cups")));
     index++;
   }
-  slidex = new ControlP5(this);
+/*  slidex = new ControlP5(this);
     slidex.addSlider("v1")
          .setPosition(40, 40)
          .setSize(200, 20)
@@ -65,7 +65,7 @@ void setup(){
          .setRange(0, 300)
          .setValue(0)
          .setColorCaptionLabel(color(20,20,20)); 
-         
+         */
   scalex = new ControlP5(this);
     scalex.addSlider("sx")
          .setPosition(windowWidth - 250, windowHeight - 20)
@@ -81,7 +81,17 @@ void setup(){
          .setRange(1, 10)
          .setValue(1)
          .setColorCaptionLabel(color(20,20,20));        
-                
+  
+ cp5 = new ControlP5(this);
+ s = cp5.addSlider2D("slide")
+         .setPosition(30,40)
+         .setSize(100,100)
+         .setMinMax(20,10,100,100)
+         .setValue(50,50)
+         //.disableCrosshair()
+         ;
+         
+  smooth();
          
    List l1 = Arrays.asList("calories","protein","fat","sodium","fiber","carbohydrates",
   "sugars","shelf","potassium","vitamins","weight","cups");
@@ -164,7 +174,7 @@ void drawPoints(){
       //stroke(1);
       //float drawPointSize = 10;
       pushMatrix();
-      translate(v1,v2);
+      translate(s.getArrayValue()[0],s.getArrayValue()[1]);
       //scale(sx,sy);
       ellipse(cereals[i].properties[c1]*sx,cereals[i].properties[c2]*sy, drawPointSize, drawPointSize); 
       popMatrix();
