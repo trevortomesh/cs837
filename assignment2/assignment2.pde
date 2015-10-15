@@ -5,11 +5,12 @@ Slider2D s;
 ControlP5 control1, control2, slidex, slidey, scalex, scaley;
 String ctrl1, ctrl2;
 int c1, c2;
-int v1, v2, sx, sy;
+float v1, v2, sx, sy;
+RadioButton r1, r2;
 
 Table rawData;
 
-int drawPointSize = 10;
+float drawPointSize = 10;
 int windowWidth = 800; 
 int windowHeight = 600;
 Cereal[] cereals;
@@ -50,27 +51,49 @@ void setup(){
     float(row.getString("cups")));
     index++;
   }
-/*  slidex = new ControlP5(this);
-    slidex.addSlider("v1")
-         .setPosition(40, 40)
-         .setSize(200, 20)
-         .setRange(100, 300)
-         .setValue(250)
-         .setColorCaptionLabel(color(20,20,20));
-         
-   slidey = new ControlP5(this);
-    slidey.addSlider("v2")
-         .setPosition(40, 40)
-         .setSize(20, 200)
-         .setRange(0, 300)
-         .setValue(0)
-         .setColorCaptionLabel(color(20,20,20)); 
-         */
-  scalex = new ControlP5(this);
+  
+  
+  cp5 = new ControlP5(this);
+  r1 = cp5.addRadioButton("radioButton1")
+         .setPosition(windowWidth-300,250)
+         .setSize(40,20)
+         .setColorForeground(color(120))
+         .setColorActive(color(255))
+         .setColorLabel(color(255))
+         .setItemsPerRow(1)
+         .setSpacingColumn(50)
+         .addItem("x-pos1",1)
+         .addItem("y-pos1",2)
+         .addItem("mark1",3)
+         .addItem("size1",4)
+         .addItem("color1",5)
+         .addItem("brightness1",6)
+         .addItem("scatter",7);
+         ;
+  /*       
+  cp5 = new ControlP5(this);
+  r2 = cp5.addRadioButton("radioButton2")
+  
+         .setPosition(windowWidth-200,250)
+         .setSize(40,20)
+         .setColorForeground(color(120))
+         .setColorActive(color(255))
+         .setColorLabel(color(255))
+         .setItemsPerRow(1)
+         .setSpacingColumn(50)
+         .addItem("x-pos2",1)
+         .addItem("y-pos2",2)
+         .addItem("mark2",3)
+         .addItem("size2",4)
+         .addItem("color2",5)
+         .addItem("brightness2",6);*/
+  
+  
+    scalex = new ControlP5(this);
     scalex.addSlider("sx")
          .setPosition(windowWidth - 250, windowHeight - 20)
          .setSize(200, 20)
-         .setRange(1, 10)
+         .setRange(1, 50)
          .setValue(1)
          .setColorCaptionLabel(color(20,20,20));    
          
@@ -78,16 +101,16 @@ void setup(){
     scaley.addSlider("sy")
          .setPosition(windowWidth - 50, windowHeight - 250)
          .setSize(20, 200)
-         .setRange(1, 10)
+         .setRange(1, 50)
          .setValue(1)
          .setColorCaptionLabel(color(20,20,20));        
   
  cp5 = new ControlP5(this);
  s = cp5.addSlider2D("slide")
-         .setPosition(30,40)
+         .setPosition(windowWidth - 200, windowHeight - 150)
          .setSize(100,100)
-         .setMinMax(20,10,100,100)
-         .setValue(50,50)
+         .setMinMax(0,0,1000,1000)
+         .setValue(0,0)
          //.disableCrosshair()
          ;
          
@@ -98,7 +121,7 @@ void setup(){
   
   control1 = new ControlP5(this);
   control1.addScrollableList("dropdown1")
-     .setPosition(windowWidth-400, 100)
+     .setPosition(windowWidth-400,0)
      .setSize(200, 100)
      .setBarHeight(20)
      .setItemHeight(20)
@@ -107,82 +130,151 @@ void setup(){
      
   control2 = new ControlP5(this);
   control2.addScrollableList("dropdown2")
-     .setPosition(windowWidth-200, 100)
+     .setPosition(windowWidth-200, 0)
      .setSize(200, 100)
      .setBarHeight(20)
      .setItemHeight(20)
      .addItems(l1);  
-         
+             
+  
+
       
 }
 
 void draw(){
   clear();
   update();  
-  
+  //scatterPlot();
   }
+
   
 void update(){
-  drawPoints();
- // scale[0] += v1;
- // drawHUD();
-  //drawAxes(); 
+  if(r1.getArrayValue()[6] == 1){
+  scatterPlot();
+}
+  if(r1.getArrayValue()[0] == 1){
+    xPlot();
+  }
+  
+  if(r1.getArrayValue()[1] ==1){
+    yPlot();
+  }
+
+  if(r1.getArrayValue()[3] ==1){
+    
+   sizePlot(); 
+    
+  }
+  
+  if(r1.getArrayValue()[4] == 1){
+   colorPlot(); 
+    
+  }
+  
+  if(r1.getArrayValue()[5] == 1){
+   brightPlot(); 
+  }
+
+
+
 }  
 
-/*
-void mouseWheel(MouseEvent event) {
-  float e = event.getCount(); 
-  scale[1] += e;  
-  scale[0] += e;
-} */
-/*
-void drawHUD(){  
+
+void radioButton(int a) {
+  println("a radio Button event: "+a);
 }
 
-void drawAxes(){ 
-  
- stroke(255,255,255); 
- fill(#000000);
- strokeWeight(10);
- line(offsetx,windowHeight-offsety,windowWidth-offsetx, windowHeight-offsety); 
- line(offsetx, offsety, offsetx, windowHeight-offsety);  
- 
- strokeWeight(1);
- for(float line = 0; line < 20; line+=0.1){
- line(float(offsetx-20), offsety+line, float(offsetx+20), offsety+line);
- }
- 
- for(float line = 0; line < 20; line+=0.01){
-   line(float(offsetx-10), offsety+line, float(offsetx+10), offsety+line);
- }
- 
- for(float line = 0; line < 365; line+=30){
-   line(offsetx+line, offsety-10, offsetx+line, offsety+10);
- } 
-}
-
-*/
 //---------------------------------------------------------------------
-void drawPoints(){
+void scatterPlot(){
   //float maxx = 0;
   //float maxy = 0;
+ // println(r1.getArrayValue()[6] == 1);
+
   for(int i = 0; i < cereals.length; i++){
       fill(#FFFFFF);
-      //ellipse(100, 100, 10, 10);
-     // ellipse(cereals[i].calories*2,cereals[i].fat*50, 10, 10); 
-      //println(cereals[i].calories);
-      //stroke(1);
-      //float drawPointSize = 10;
       pushMatrix();
       translate(s.getArrayValue()[0],s.getArrayValue()[1]);
       //scale(sx,sy);
       ellipse(cereals[i].properties[c1]*sx,cereals[i].properties[c2]*sy, drawPointSize, drawPointSize); 
       popMatrix();
-      //println(cereals[i].properties[c1],cereals[i].properties[c2]);
-      //fill(#FFFFAA);
-      //drawPointSize = 20;
  }
     }
+    
+void xPlot(){
+    for(int i = 0; i < cereals.length; i++){
+      fill(#FFFFFF);
+      pushMatrix();
+      translate(s.getArrayValue()[0],s.getArrayValue()[1]);
+      //scale(sx,sy);
+      ellipse(cereals[i].properties[c1]*sx,i*sy, drawPointSize, drawPointSize); 
+      popMatrix();
+    }
+  
+}
+
+void yPlot(){
+    for(int i = 0; i < cereals.length; i++){
+      fill(#FFFFFF);
+      pushMatrix();
+      translate(s.getArrayValue()[0],s.getArrayValue()[1]);
+      //scale(sx,sy);
+      ellipse(i*sx,cereals[i].properties[c1]*sy, drawPointSize, drawPointSize); 
+      popMatrix();
+    }
+  
+}
+
+
+
+void sizePlot(){
+  
+      for(int i = 0; i < cereals.length; i++){
+      fill(#FFFFFF);
+      pushMatrix();
+      translate(s.getArrayValue()[0],s.getArrayValue()[1]);
+      //scale(sx,sy);
+      ellipse(i*sx,sy, cereals[i].properties[c1]/10, cereals[i].properties[c1]/10); 
+      popMatrix();
+    }
+  
+  
+}
+
+
+void brightPlot(){
+      for(int i = 0; i < cereals.length; i++){
+      color c = color(map(cereals[i].properties[c1],0,255,0,255), map(cereals[i].properties[c1],0,255,0,255), map(cereals[i].properties[c1],0,255,0,255));
+      fill(c);
+      pushMatrix();
+      translate(s.getArrayValue()[0],s.getArrayValue()[1]);
+      //scale(sx,sy);
+      ellipse(i*sx,sy, 10, 10); 
+      popMatrix();
+    }
+  
+}
+
+void colorPlot(){
+      int j = 0;
+      for(int i = 0; i < cereals.length; i++){
+      color c = color(map(cereals[i].properties[c1],0,255,0,255), 0, 255-map(cereals[i].properties[c1],0,255,0,255));
+      fill(c);
+      pushMatrix();
+      translate(s.getArrayValue()[0],s.getArrayValue()[1]);
+      //scale(sx,sy);
+      ellipse(i*sx,j*sy, 10, 10); 
+      popMatrix();
+      if(j < 50){
+        j = j+5;}
+       else{ j = 0;} 
+        
+    }
+  
+  
+}
+  
+
+
 
 //----------------------------------------------------------------
 void dropdown1(int n) {
@@ -195,6 +287,8 @@ void dropdown2(int n){
 control2.get(ScrollableList.class, "dropdown2").getItem(n); 
 c2 = (int) control2.get(ScrollableList.class, "dropdown2").getItem(n).get("value");  
 }
+
+
 //----------------------------------------------------------------------
 class Cereal { 
   String name, mfr,type;
