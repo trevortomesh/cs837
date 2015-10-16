@@ -1,5 +1,24 @@
-import controlP5.*;
-import java.util.*;
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import controlP5.*; 
+import java.util.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class assignment2 extends PApplet {
+
+
+
 ControlP5 cp5;
 Slider2D s;
 ControlP5 control1, control2, slidex, slidey, scalex, scaley, pointSize;
@@ -23,12 +42,12 @@ int offsety = 10;
 
 int[] scale = {50, 50};
 
-void settings(){
+public void settings(){
   size(windowWidth,windowHeight); 
 
 }
 
-void setup(){
+public void setup(){
   rawData = loadTable("cereal.csv", "header");
   println(rawData.getRowCount() + " total rows in table"); 
   cereals = new Cereal[rawData.getRowCount()];
@@ -39,18 +58,18 @@ void setup(){
     row.getString("name"),
     row.getString("mfr"),
     row.getString("type"),
-    float(row.getString("calories")),
-    float(row.getString("protein")),
-    float(row.getString("fat")),
-    float(row.getString("sodium")),
-    float(row.getString("fiber")),
-    float(row.getString("carbo")),
-    float(row.getString("sugars")),
-    float(row.getString("shelf")),
-    float(row.getString("potass")),
-    float(row.getString("vitamins")),
-    float(row.getString("weight")),
-    float(row.getString("cups")));
+    PApplet.parseFloat(row.getString("calories")),
+    PApplet.parseFloat(row.getString("protein")),
+    PApplet.parseFloat(row.getString("fat")),
+    PApplet.parseFloat(row.getString("sodium")),
+    PApplet.parseFloat(row.getString("fiber")),
+    PApplet.parseFloat(row.getString("carbo")),
+    PApplet.parseFloat(row.getString("sugars")),
+    PApplet.parseFloat(row.getString("shelf")),
+    PApplet.parseFloat(row.getString("potass")),
+    PApplet.parseFloat(row.getString("vitamins")),
+    PApplet.parseFloat(row.getString("weight")),
+    PApplet.parseFloat(row.getString("cups")));
     index++;
   }
   
@@ -127,7 +146,7 @@ void setup(){
          //.disableCrosshair()
          ;
          
-  smooth();
+  
          
    List l1 = Arrays.asList("calories","protein","fat","sodium","fiber","carbohydrates",
   "sugars","shelf","potassium","vitamins","weight","cups");
@@ -156,15 +175,15 @@ void setup(){
       
 }
 
-void draw(){
+public void draw(){
   clear();
-  background(#D1DBBD);
+  background(0xffD1DBBD);
   update();  
   //scatterPlot();
   }
 
   
-void update(){
+public void update(){
   if(r1.getArrayValue()[0] == 1){
     xPlot();
     drawAxies();
@@ -201,14 +220,14 @@ void update(){
 }  
 
 
-void radioButton(int a) {
+public void radioButton(int a) {
   println("a radio Button event: "+a);
 }
 
 
-void drawAxies(){
+public void drawAxies(){
  stroke(0); 
- fill(#000000);
+ fill(0xff000000);
  strokeWeight(1);
  pushMatrix();
  translate(s.getArrayValue()[0],s.getArrayValue()[1]);
@@ -220,11 +239,11 @@ void drawAxies(){
  
 
  for(float line = 0; line < 1000; line+= 1){
- line(float(-20), line*sy, 20, line*sy);
+ line(PApplet.parseFloat(-20), line*sy, 20, line*sy);
  }
  
  for(float line = 0; line < 1000; line+=1){
-   line(float(-10), line*sy, 10, line*sy);
+   line(PApplet.parseFloat(-10), line*sy, 10, line*sy);
  }
  
  for(float line = 0; line < 1000; line+=1){
@@ -234,7 +253,7 @@ void drawAxies(){
 
   }
 
-void keyPressed(){
+public void keyPressed(){
   
  if(key == 'a'){
    selectIndex--;
@@ -252,15 +271,15 @@ void keyPressed(){
   
 }
 
-void renderFont(String name, float value){
+public void renderFont(String name, float value){
 PFont drawFont = loadFont("Arial-Black-12.vlw");
 String toDraw = name + ' ' + value;
-      fill(#3E606F);
+      fill(0xff3E606F);
       textFont(drawFont);
       text(toDraw, 400, 400);
 }
 //---------------------------------------------------------------------
-void scatterPlot(){
+public void scatterPlot(){
   //float maxx = 0;
   //float maxy = 0;
  // println(r1.getArrayValue()[6] == 1);
@@ -268,7 +287,7 @@ void scatterPlot(){
   for(int i = 0; i < cereals.length; i++){
       stroke(0);
       strokeWeight(10);
-      fill(#FFFFFF);
+      fill(0xffFFFFFF);
       pushMatrix();
       translate(s.getArrayValue()[0],s.getArrayValue()[1]);
       ellipse(cereals[i].properties[c1]*sx,cereals[i].properties[c2]*sy, drawPointSize*ps, drawPointSize*ps); 
@@ -277,11 +296,11 @@ void scatterPlot(){
  }
     }
     
-void xPlot(){
+public void xPlot(){
   stroke(0);
     strokeWeight(10);
     for(int i = 0; i < cereals.length; i++){
-      fill(#FFFFFF);
+      fill(0xffFFFFFF);
       pushMatrix();
       translate(s.getArrayValue()[0],s.getArrayValue()[1]);
      if(selectIndex == i){
@@ -298,11 +317,11 @@ void xPlot(){
   
 }
 
-void yPlot(){
+public void yPlot(){
   stroke(0);
   strokeWeight(10);
     for(int i = 0; i < cereals.length; i++){
-      fill(#FFFFFF);
+      fill(0xffFFFFFF);
       pushMatrix();
       translate(s.getArrayValue()[0],s.getArrayValue()[1]);
             if(selectIndex == i){
@@ -322,7 +341,7 @@ void yPlot(){
 
 
 
-void sizePlot(){
+public void sizePlot(){
       stroke(0);
       strokeWeight(10);
       int j = 0;
@@ -353,13 +372,13 @@ void sizePlot(){
 }
 
 
-void brightPlot(){
+public void brightPlot(){
     
       stroke(0);
       strokeWeight(10);
       int j = 0;
       for(int i = 0; i < cereals.length; i++){
-      color c = color(map(cereals[i].properties[c1],0,255,0,255), map(cereals[i].properties[c1],0,255,0,255), map(cereals[i].properties[c1],0,255,0,255));
+      int c = color(map(cereals[i].properties[c1],0,255,0,255), map(cereals[i].properties[c1],0,255,0,255), map(cereals[i].properties[c1],0,255,0,255));
       fill(c);
       pushMatrix();
       translate(s.getArrayValue()[0],s.getArrayValue()[1]);
@@ -385,12 +404,12 @@ void brightPlot(){
   
 }
 
-void colorPlot(){
+public void colorPlot(){
   stroke(0);
   strokeWeight(10);
   int j = 0;
       for(int i = 0; i < cereals.length; i++){
-      color c = color(map(cereals[i].properties[c1],0,255,0,255), 0, 255-map(cereals[i].properties[c1],0,255,0,255));
+      int c = color(map(cereals[i].properties[c1],0,255,0,255), 0, 255-map(cereals[i].properties[c1],0,255,0,255));
       fill(c);
       
       pushMatrix();
@@ -419,13 +438,13 @@ void colorPlot(){
   
 
 //----------------------------------------------------------------
-void dropdown1(int n) {
+public void dropdown1(int n) {
   control1.get(ScrollableList.class, "dropdown1").getItem(n); 
    c1 = (int) control1.get(ScrollableList.class, "dropdown1").getItem(n).get("value"); 
 //   println(c1,c2);
 }
 
-void dropdown2(int n){
+public void dropdown2(int n){
 control2.get(ScrollableList.class, "dropdown2").getItem(n); 
 c2 = (int) control2.get(ScrollableList.class, "dropdown2").getItem(n).get("value");  
 }
@@ -473,5 +492,14 @@ class Cereal {
   properties[10] = weight;
   properties[11] = cups;
   
+  }
+}
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "assignment2" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
   }
 }
